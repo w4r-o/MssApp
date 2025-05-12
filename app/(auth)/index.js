@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { teachAssistService } from '@services/teachassist';
 
 export default function LoginScreen() {
   const [username, setUsername] = useState('');
@@ -16,30 +15,13 @@ export default function LoginScreen() {
       setError('Please enter your TeachAssist username and password');
       return;
     }
-
     try {
       setLoading(true);
       setError('');
-      
-      // Try to login with TeachAssist
-      await teachAssistService.login(username, password);
-      
-      // If login successful, store credentials
-      await AsyncStorage.setItem('ta_credentials', JSON.stringify({
-        username,
-        password
-      }));
-      
-      router.replace('/(tabs)/home');
+      await AsyncStorage.setItem('ta_credentials', JSON.stringify({ username, password }));
+      router.replace('/home');
     } catch (error) {
-      console.error('Login error:', error);
-      if (error.message.includes('Authentication failed')) {
-        setError('Invalid username or password. Please try again.');
-      } else if (error.message.includes('Failed to fetch')) {
-        setError('Unable to connect to TeachAssist. Please check your internet connection.');
-      } else {
-        setError('An error occurred while logging in. Please try again.');
-      }
+      setError('An error occurred while logging in. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -47,15 +29,13 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Text style={styles.appName}>MarkvilleApp</Text>
-        <Text style={styles.tagline}>Your School, Your Way</Text>
-      </View>
-
+      <Text style={styles.appName}>MarkvilleApp</Text>
+      <Text style={styles.tagline}>Your School, Your Way</Text>
       <View style={styles.inputContainer}>
         <TextInput
           style={[styles.input, error && styles.inputError]}
           placeholder="Username"
+          placeholderTextColor="#888"
           value={username}
           onChangeText={(text) => {
             setUsername(text);
@@ -68,6 +48,7 @@ export default function LoginScreen() {
         <TextInput
           style={[styles.input, error && styles.inputError]}
           placeholder="Password"
+          placeholderTextColor="#888"
           value={password}
           onChangeText={(text) => {
             setPassword(text);
@@ -76,35 +57,27 @@ export default function LoginScreen() {
           secureTextEntry
           editable={!loading}
         />
-
-        {error ? (
-          <Text style={styles.errorText}>{error}</Text>
-        ) : null}
-
-        <TouchableOpacity 
-          style={[styles.button, loading && styles.buttonDisabled]} 
+        {error ? <Text style={styles.errorText}>{error}</Text> : null}
+        <TouchableOpacity
+          style={[styles.button, loading && styles.buttonDisabled]}
           onPress={handleLogin}
           disabled={loading}
         >
-          <Text style={styles.buttonText}>
-            {loading ? 'Logging in...' : 'Login'}
-          </Text>
+          {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Login</Text>}
         </TouchableOpacity>
-
         <Text style={styles.disclaimer}>
           Your credentials are stored securely and only used to access TeachAssist.
         </Text>
       </View>
-
       <View style={styles.footer}>
-        <Text style={styles.footerText}>Don't have an account? </Text>
+        <Text style={styles.footerText}>Need an account? </Text>
         <TouchableOpacity onPress={() => {
           Alert.alert(
             'TeachAssist Account Required',
             'You need a TeachAssist account to use this app. Please contact your school administrator if you don\'t have one.'
           );
         }}>
-          <Text style={styles.signupText}>Sign Up</Text>
+          <Text style={styles.signupText}>Learn More</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -115,55 +88,57 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 20,
-    backgroundColor: '#fff',
-  },
-  logoContainer: {
     alignItems: 'center',
-    marginBottom: 50,
+    padding: 24,
+    backgroundColor: '#121212',
   },
   appName: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#007AFF',
+    color: '#00BFFF',
     marginBottom: 10,
+    marginTop: 24,
   },
   tagline: {
     fontSize: 16,
-    color: '#666',
+    color: '#B0B0B0',
+    marginBottom: 32,
   },
   inputContainer: {
     width: '100%',
     maxWidth: 400,
     alignSelf: 'center',
+    marginBottom: 32,
   },
   input: {
     height: 50,
     borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
+    borderColor: '#232A3E',
+    borderRadius: 12,
     paddingHorizontal: 15,
     marginBottom: 15,
     fontSize: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#181A20',
+    color: '#fff',
   },
   inputError: {
-    borderColor: '#ff3b30',
+    borderColor: '#FF3B30',
   },
   errorText: {
-    color: '#ff3b30',
+    color: '#FF3B30',
     marginBottom: 15,
     textAlign: 'center',
   },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#00BFFF',
     height: 50,
-    borderRadius: 8,
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 10,
   },
   buttonDisabled: {
-    backgroundColor: '#ccc',
+    backgroundColor: '#232A3E',
   },
   buttonText: {
     color: '#fff',
@@ -171,22 +146,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   disclaimer: {
-    marginTop: 20,
+    marginTop: 10,
     textAlign: 'center',
-    color: '#666',
+    color: '#888',
     fontSize: 12,
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 40,
+    marginTop: 24,
   },
   footerText: {
-    color: '#666',
+    color: '#B0B0B0',
     fontSize: 14,
   },
   signupText: {
-    color: '#007AFF',
+    color: '#00BFFF',
     fontSize: 14,
     fontWeight: '500',
   },

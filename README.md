@@ -1,50 +1,95 @@
+# Markville App (Dark Mode)
 
-# TypeScript
+## Overview
+A React Native/Expo application for Markville Secondary School students to access their TeachAssist grades, course information, and school resources.
 
-[![CI](https://github.com/microsoft/TypeScript/actions/workflows/ci.yml/badge.svg)](https://github.com/microsoft/TypeScript/actions/workflows/ci.yml)
-[![npm version](https://badge.fury.io/js/typescript.svg)](https://www.npmjs.com/package/typescript)
-[![Downloads](https://img.shields.io/npm/dm/typescript.svg)](https://www.npmjs.com/package/typescript)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/microsoft/TypeScript/badge)](https://securityscorecards.dev/viewer/?uri=github.com/microsoft/TypeScript)
-
-
-[TypeScript](https://www.typescriptlang.org/) is a language for application-scale JavaScript. TypeScript adds optional types to JavaScript that support tools for large-scale JavaScript applications for any browser, for any host, on any OS. TypeScript compiles to readable, standards-based JavaScript. Try it out at the [playground](https://www.typescriptlang.org/play/), and stay up to date via [our blog](https://blogs.msdn.microsoft.com/typescript) and [Twitter account](https://twitter.com/typescript).
-
-Find others who are using TypeScript at [our community page](https://www.typescriptlang.org/community/).
-
-## Installing
-
-For the latest stable version:
-
-```bash
-npm install -D typescript
+## Directory Structure
+```
+/app                 # Main application screens and navigation
+  /(tabs)           # Tab-based navigation screens
+  /(auth)           # Authentication related screens
+/src
+  /components       # Reusable UI components
+  /screens          # Screen components
+  /utils           # Utility functions and helpers
+  /lib             # Core business logic
+  /services        # API and external service integrations
+  /types           # TypeScript type definitions
+/assets            # Static assets (images, fonts)
 ```
 
-For our nightly builds:
+## Setup Instructions
 
+### Prerequisites
+- Node.js (v16 or higher)
+- Yarn package manager
+- Expo CLI (`npm install -g expo-cli`)
+
+### Installation
+1. Clone the repository
 ```bash
-npm install -D typescript@next
+git clone [repository-url]
+cd MarkvilleApp-Dark
 ```
 
-## Contribute
+2. Install dependencies
+```bash
+yarn install
+```
 
-There are many ways to [contribute](https://github.com/microsoft/TypeScript/blob/main/CONTRIBUTING.md) to TypeScript.
-* [Submit bugs](https://github.com/microsoft/TypeScript/issues) and help us verify fixes as they are checked in.
-* Review the [source code changes](https://github.com/microsoft/TypeScript/pulls).
-* Engage with other TypeScript users and developers on [StackOverflow](https://stackoverflow.com/questions/tagged/typescript).
-* Help each other in the [TypeScript Community Discord](https://discord.gg/typescript).
-* Join the [#typescript](https://twitter.com/search?q=%23TypeScript) discussion on Twitter.
-* [Contribute bug fixes](https://github.com/microsoft/TypeScript/blob/main/CONTRIBUTING.md).
+3. Start the development server
+```bash
+yarn start
+```
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see
-the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com)
-with any additional questions or comments.
+## Development Guidelines
 
-## Documentation
+### Code Style
+- Use TypeScript for type safety
+- Follow ESLint configuration
+- Use Prettier for code formatting
+- Follow React Native best practices
 
-*  [TypeScript in 5 minutes](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
-*  [Programming handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
-*  [Homepage](https://www.typescriptlang.org/)
+### Naming Conventions
+- Components: PascalCase (e.g., `LoginScreen.tsx`)
+- Functions: camelCase (e.g., `handleSubmit`)
+- Files: PascalCase for components, camelCase for utilities
+- Constants: UPPER_SNAKE_CASE
 
-## Roadmap
+### Git Workflow
+1. Create feature branch from main
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+2. Make changes and commit using conventional commits
+   ```bash
+   git commit -m "feat: add new feature"
+   ```
+3. Push changes and create pull request
+   ```bash
+   git push origin feature/your-feature-name
+   ```
 
-For details on our planned features and future direction, please refer to our [roadmap](https://github.com/microsoft/TypeScript/wiki/Roadmap).
+### Testing
+- Run tests: `yarn test`
+- Update snapshots: `yarn test -u`
+- Check coverage: `yarn test --coverage`
+
+## Available Scripts
+- `yarn start`: Start the Expo development server
+- `yarn android`: Run on Android emulator
+- `yarn ios`: Run on iOS simulator
+- `yarn web`: Run in web browser
+- `yarn test`: Run test suite
+- `yarn lint`: Run ESLint
+- `yarn format`: Run Prettier
+
+## Contributing
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+[Add your license information here]

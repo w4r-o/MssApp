@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { teachAssistService } from '@services/teachassist';
+import { Student } from '../../src/lib/teachassist/Student';
 
 export default function MarksScreen() {
   const [courses, setCourses] = useState([]);
@@ -37,30 +37,21 @@ export default function MarksScreen() {
         setLoading(true);
       }
       setError(null);
-      
       // Get stored credentials
       const credentialsStr = await AsyncStorage.getItem('ta_credentials');
-      console.log('Credentials found:', !!credentialsStr);
-      
       if (!credentialsStr) {
-        console.log('No credentials found, redirecting to login');
         router.replace('/');
         return;
       }
-
       const credentials = JSON.parse(credentialsStr);
-      console.log('Attempting to load courses...');
-      
-      const data = await teachAssistService.login(credentials.username, credentials.password);
-      console.log('Received courses data:', data);
-      
-      setCourses(data);  // The data is already properly formatted
+      const student = new Student(credentials.username, credentials.password);
+      const courses = await student.getCourses();
+      setCourses(courses);
     } catch (err) {
-      console.error('Error in loadCourses:', err);
       const errorMessage = __DEV__ 
         ? `Error: ${err.message}\n\nPlease check the console for more details.`
         : 'Failed to load courses. Pull down to refresh.';
-      
+      console.error('[TeachAssist] Marks load error:', err, err?.message, err?.stack);
       setError(errorMessage);
       Alert.alert(
         'Error',
@@ -77,8 +68,13 @@ export default function MarksScreen() {
   };
 
   const handleLogout = async () => {
-    await AsyncStorage.removeItem('ta_credentials');
-    router.replace('/');
+    try {
+      await AsyncStorage.removeItem('ta_credentials');
+      router.replace('/');
+    } catch (error) {
+      console.error('Error during logout:', error);
+      Alert.alert('Error', 'Failed to logout. Please try again.');
+    }
   };
 
   const handleBack = () => {
@@ -87,7 +83,7 @@ export default function MarksScreen() {
 
   useEffect(() => {
     loadCourses();
-  }, []);
+  }, [router]);
 
   const getPeriodTime = (block) => {
     const times = {
@@ -316,7 +312,7 @@ export default function MarksScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#121212',
   },
   loadingContainer: {
     flex: 1,
@@ -330,9 +326,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 60,
     paddingBottom: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#1E1E1E',
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: '#232A3E',
   },
   headerButton: {
     flexDirection: 'row',
@@ -342,13 +338,13 @@ const styles = StyleSheet.create({
   },
   headerButtonText: {
     fontSize: 17,
-    color: '#007AFF',
+    color: '#00BFFF',
     marginLeft: 4,
   },
   headerTitle: {
     fontSize: 17,
     fontWeight: '600',
-    color: '#000',
+    color: '#FFFFFF',
   },
   refreshIcon: {
     transform: [{ rotate: '0deg' }],
@@ -366,19 +362,19 @@ const styles = StyleSheet.create({
     fontSize: 34,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#000',
+    color: '#FFFFFF',
   },
   coursesList: {
     gap: 16,
   },
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: '#1E1E1E',
     borderRadius: 12,
     padding: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
     elevation: 3,
   },
   courseHeader: {
@@ -396,12 +392,12 @@ const styles = StyleSheet.create({
   courseCode: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#000',
+    color: '#FFFFFF',
     marginBottom: 4,
   },
   courseName: {
     fontSize: 17,
-    color: '#666',
+    color: '#B0B0B0',
   },
   courseDetails: {
     flexDirection: 'row',
@@ -414,7 +410,7 @@ const styles = StyleSheet.create({
   },
   detailText: {
     fontSize: 14,
-    color: '#666',
+    color: '#B0B0B0',
   },
   periodTime: {
     fontSize: 12,
@@ -431,10 +427,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '600',
     marginBottom: 2,
+    color: '#FFFFFF',
   },
   markLabel: {
     fontSize: 12,
     fontWeight: '500',
+    color: '#B0B0B0',
   },
   showMoreButton: {
     flexDirection: 'row',
@@ -443,10 +441,10 @@ const styles = StyleSheet.create({
     marginTop: 12,
     paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: '#eee',
+    borderTopColor: '#232A3E',
   },
   showMoreText: {
-    color: '#007AFF',
+    color: '#00BFFF',
     fontSize: 15,
     marginRight: 4,
   },
@@ -455,13 +453,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   errorText: {
-    color: '#666',
+    color: '#FF3B30',
     textAlign: 'center',
     fontSize: 16,
   },
   modalContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#1E1E1E',
   },
   modalHeader: {
     flexDirection: 'row',
@@ -471,7 +469,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: '#232A3E',
   },
   modalCloseButton: {
     padding: 8,
@@ -479,12 +477,13 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 17,
     fontWeight: '600',
+    color: '#FFFFFF',
   },
   modalStatsButton: {
     padding: 8,
   },
   modalStatsButtonText: {
-    color: '#007AFF',
+    color: '#00BFFF',
     fontSize: 17,
   },
   modalContent: {
@@ -493,17 +492,18 @@ const styles = StyleSheet.create({
   modalSection: {
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: '#232A3E',
   },
   modalSectionTitle: {
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 16,
+    color: '#FFFFFF',
   },
   modalOverview: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#181A20',
     borderRadius: 12,
     padding: 16,
   },
@@ -513,16 +513,17 @@ const styles = StyleSheet.create({
   },
   overviewLabel: {
     fontSize: 14,
-    color: '#666',
+    color: '#B0B0B0',
     marginBottom: 4,
   },
   overviewValue: {
     fontSize: 20,
     fontWeight: '600',
+    color: '#FFFFFF',
   },
   overviewDivider: {
     width: 1,
-    backgroundColor: '#ddd',
+    backgroundColor: '#232A3E',
   },
   weightCategories: {
     flexDirection: 'row',
@@ -537,10 +538,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 8,
+    color: '#FFFFFF',
   },
   categoryBar: {
     width: 40,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#232A3E',
     borderRadius: 20,
     overflow: 'hidden',
   },
@@ -553,5 +555,6 @@ const styles = StyleSheet.create({
   categoryValue: {
     fontSize: 14,
     marginTop: 8,
+    color: '#FFFFFF',
   },
 }); 

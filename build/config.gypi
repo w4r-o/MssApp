@@ -489,7 +489,7 @@
     "target": "23.10.0",
     "build_v8_with_gn": "false",
     "global_prefix": "/opt/homebrew",
-    "local_prefix": "/Users/aaronjiang/MarkvilleApp",
+    "local_prefix": "/Users/aaronjiang/MarkvilleApp-Dark",
     "globalconfig": "/opt/homebrew/etc/npmrc",
     "userconfig": "/Users/aaronjiang/.npmrc",
     "init_module": "/Users/aaronjiang/.npm-init.js",

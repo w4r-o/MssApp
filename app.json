@@ -1,32 +1,33 @@
 {
   "expo": {
-    "name": "MarkvilleApp",
-    "slug": "MarkvilleApp",
+    "name": "MarkvilleApp-Dark",
+    "slug": "markvilleapp-dark",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#121212"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.MarkvilleApp"
+      "bundleIdentifier": "com.anonymous.MarkvilleAppDark",
+      "userInterfaceStyle": "dark"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#121212"
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.anonymous.MarkvilleApp"
+      "package": "com.anonymous.MarkvilleAppDark"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -40,6 +41,14 @@
         }
       ]
     ],
-    "scheme": "markvilleapp"
+    "scheme": "markvilleapp-dark",
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "81684e8d-c2e1-42ee-822a-9824b1410700"
+      }
+    }
   }
 }

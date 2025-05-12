@@ -1,273 +1,236 @@
-import { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
+import { MapPin, Clock, Calendar, CheckCircle2 } from 'lucide-react-native';
+import Header from './components/Header';
+import { useSidebar } from '../src/context/SidebarContext';
 
-// Dummy volunteering opportunities
-const OPPORTUNITIES = [
+const VOLUNTEER_OPPS = [
   {
-    id: '1',
     title: 'Library Assistant',
     location: 'School Library',
-    hours: 2,
-    daysPerWeek: 3,
+    hours: '2 hours/day',
+    days: '3 days/week',
     spots: 4,
-    description: 'Help organize books, assist students with research, and maintain library resources.',
-    requirements: ['Good organizational skills', 'Knowledge of library system'],
+    description: '',
+    requirements: [],
   },
   {
-    id: '2',
     title: 'Math Tutor',
     location: 'Study Hall',
-    hours: 1.5,
-    daysPerWeek: 2,
+    hours: '1.5 hours/day',
+    days: '2 days/week',
     spots: 6,
     description: 'Provide tutoring support for Grade 9-10 students in mathematics.',
-    requirements: ['Grade 11-12 student', 'Min. 85% in Math'],
+    requirements: [
+      'Grade 11-12 student',
+      'Min. 85% in Math',
+    ],
   },
   {
-    id: '3',
     title: 'Environmental Club Leader',
     location: 'School Grounds',
-    hours: 3,
-    daysPerWeek: 1,
+    hours: '3 hours/day',
+    days: '1 days/week',
     spots: 2,
-    description: 'Lead recycling initiatives and organize environmental awareness events.',
-    requirements: ['Leadership experience', 'Environmental knowledge'],
+    description: '',
+    requirements: [],
   },
 ];
 
-const OpportunityCard = ({ opportunity }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  return (
-    <TouchableOpacity 
-      style={styles.card}
-      onPress={() => setIsExpanded(!isExpanded)}
-    >
-      <View style={styles.cardHeader}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>{opportunity.title}</Text>
-          <View style={styles.spotsBadge}>
-            <Text style={styles.spotsText}>{opportunity.spots} spots</Text>
-          </View>
-        </View>
-        <View style={styles.locationContainer}>
-          <Ionicons name="location-outline" size={16} color="#666" />
-          <Text style={styles.location}>{opportunity.location}</Text>
-        </View>
-      </View>
-
-      <View style={styles.timeInfo}>
-        <View style={styles.timeItem}>
-          <Ionicons name="time-outline" size={16} color="#666" />
-          <Text style={styles.timeText}>{opportunity.hours} hours/day</Text>
-        </View>
-        <View style={styles.timeItem}>
-          <Ionicons name="calendar-outline" size={16} color="#666" />
-          <Text style={styles.timeText}>{opportunity.daysPerWeek} days/week</Text>
-        </View>
-      </View>
-
-      {isExpanded && (
-        <View style={styles.expandedContent}>
-          <Text style={styles.sectionTitle}>Description</Text>
-          <Text style={styles.description}>{opportunity.description}</Text>
-          
-          <Text style={styles.sectionTitle}>Requirements</Text>
-          {opportunity.requirements.map((req, index) => (
-            <View key={index} style={styles.requirementItem}>
-              <Ionicons name="checkmark-circle" size={16} color="#34c759" />
-              <Text style={styles.requirementText}>{req}</Text>
-            </View>
-          ))}
-
-          <TouchableOpacity style={styles.applyButton}>
-            <Text style={styles.applyButtonText}>Apply Now</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-
-      <View style={styles.cardFooter}>
-        <Text style={styles.expandText}>
-          {isExpanded ? 'Show less' : 'Show more'}
-        </Text>
-        <Ionicons 
-          name={isExpanded ? 'chevron-up' : 'chevron-down'} 
-          size={16} 
-          color="#007AFF" 
-        />
-      </View>
-    </TouchableOpacity>
-  );
-};
-
 export default function VolunteerScreen() {
+  const { openSidebar } = useSidebar();
+  const [expanded, setExpanded] = useState(null);
+  const opportunities = VOLUNTEER_OPPS;
+
+  if (!opportunities.length) {
+    return (
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#121212' }}>
+        <View style={styles.center}>
+          <Header openSidebar={openSidebar} title="Volunteering" />
+          <Text style={styles.emptyTitle}>No volunteering opportunities</Text>
+          <Text style={styles.emptyText}>Check back later for new opportunities.</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Volunteering Opportunities</Text>
-        <Text style={styles.headerSubtitle}>
-          Find opportunities to make a difference and earn hours
-        </Text>
-      </View>
-
-      <View style={styles.content}>
-        {OPPORTUNITIES.map((opportunity) => (
-          <OpportunityCard key={opportunity.id} opportunity={opportunity} />
-        ))}
-      </View>
-
-      <TouchableOpacity style={styles.createButton}>
-        <Ionicons name="add-circle" size={24} color="#fff" />
-        <Text style={styles.createButtonText}>Create New Opportunity</Text>
-      </TouchableOpacity>
-    </ScrollView>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#121212' }}>
+      <Header openSidebar={openSidebar} title="Volunteering" />
+      <Text style={styles.header}>Volunteering Opportunities</Text>
+      <Text style={styles.subheader}>Find opportunities to make a difference and earn hours</Text>
+      <FlatList
+        data={opportunities}
+        keyExtractor={(item, idx) => String(item.title || idx)}
+        contentContainerStyle={{ paddingBottom: 32, paddingTop: 16 }}
+        renderItem={({ item, index }) => (
+          <View style={styles.card}>
+            <View style={styles.rowBetween}>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.title}>{item.title}</Text>
+                <View style={styles.infoRow}>
+                  <MapPin color="#888" size={16} style={{ marginRight: 4 }} />
+                  <Text style={styles.infoText}>{item.location}</Text>
+                  <Clock color="#888" size={16} style={{ marginLeft: 12, marginRight: 4 }} />
+                  <Text style={styles.infoText}>{item.hours}</Text>
+                  <Calendar color="#888" size={16} style={{ marginLeft: 12, marginRight: 4 }} />
+                  <Text style={styles.infoText}>{item.days}</Text>
+                </View>
+              </View>
+              <View style={styles.spotsBadge}>
+                <Text style={styles.spotsText}>{item.spots} spots</Text>
+              </View>
+            </View>
+            {item.description ? (
+              <TouchableOpacity style={styles.showMore} onPress={() => setExpanded(expanded === index ? null : index)}>
+                <Text style={styles.showMoreText}>{expanded === index ? 'Show less' : 'Show more'}</Text>
+              </TouchableOpacity>
+            ) : null}
+            {expanded === index && (
+              <View style={styles.detailsSection}>
+                <Text style={styles.detailsLabel}>Description</Text>
+                <Text style={styles.detailsText}>{item.description}</Text>
+                {item.requirements.length > 0 && (
+                  <View style={{ marginTop: 10 }}>
+                    <Text style={styles.detailsLabel}>Requirements</Text>
+                    {item.requirements.map((req, i) => (
+                      <View key={i} style={styles.reqRow}>
+                        <CheckCircle2 color="#00BFFF" size={18} style={{ marginRight: 6 }} />
+                        <Text style={styles.reqText}>{req}</Text>
+                      </View>
+                    ))}
+                  </View>
+                )}
+                <TouchableOpacity style={styles.applyBtn} activeOpacity={0.8} hitSlop={{top:12,bottom:12,left:12,right:12}}>
+                  <Text style={styles.applyBtnText}>Apply Now</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
+        )}
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f8f8f8',
-  },
   header: {
-    padding: 20,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  headerTitle: {
+    color: '#fff',
     fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  headerSubtitle: {
-    fontSize: 16,
-    color: '#666',
-  },
-  content: {
-    padding: 15,
-  },
-  card: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 15,
-    marginBottom: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  cardHeader: {
-    marginBottom: 12,
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    fontWeight: '700',
     marginBottom: 4,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  spotsBadge: {
-    backgroundColor: '#e3f2fd',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
-  },
-  spotsText: {
-    color: '#1976d2',
-    fontSize: 12,
-    fontWeight: '500',
-  },
-  locationContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  location: {
-    marginLeft: 4,
-    color: '#666',
-    fontSize: 14,
-  },
-  timeInfo: {
-    flexDirection: 'row',
-    marginBottom: 12,
-  },
-  timeItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: 16,
-  },
-  timeText: {
-    marginLeft: 4,
-    color: '#666',
-    fontSize: 14,
-  },
-  expandedContent: {
-    borderTopWidth: 1,
-    borderTopColor: '#eee',
-    paddingTop: 12,
-    marginBottom: 12,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 8,
-    marginTop: 12,
-  },
-  description: {
-    fontSize: 14,
-    color: '#444',
-    lineHeight: 20,
-  },
-  requirementItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 4,
-  },
-  requirementText: {
-    marginLeft: 8,
-    fontSize: 14,
-    color: '#444',
-  },
-  applyButton: {
-    backgroundColor: '#34c759',
-    padding: 12,
-    borderRadius: 8,
-    alignItems: 'center',
     marginTop: 16,
   },
-  applyButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
+  subheader: {
+    color: '#B0B0B0',
+    fontSize: 15,
+    marginBottom: 18,
   },
-  cardFooter: {
+  card: {
+    backgroundColor: '#1E1E1E',
+    borderRadius: 18,
+    marginBottom: 18,
+    padding: 18,
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  rowBetween: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
+  title: {
+    color: '#fff',
+    fontWeight: '700',
+    fontSize: 18,
+    marginBottom: 2,
+  },
+  infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    marginBottom: 2,
+    flexWrap: 'wrap',
   },
-  expandText: {
-    color: '#007AFF',
+  infoText: {
+    color: '#B0B0B0',
+    fontSize: 13,
+    marginRight: 2,
+  },
+  spotsBadge: {
+    backgroundColor: '#232A3E',
+    borderRadius: 12,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 12,
+  },
+  spotsText: {
+    color: '#00BFFF',
+    fontWeight: '600',
+    fontSize: 15,
+  },
+  showMore: {
+    marginTop: 10,
+    alignSelf: 'flex-start',
+  },
+  showMoreText: {
+    color: '#00BFFF',
+    fontWeight: '600',
+    fontSize: 15,
+  },
+  detailsSection: {
+    marginTop: 10,
+    backgroundColor: '#181A20',
+    borderRadius: 10,
+    padding: 12,
+  },
+  detailsLabel: {
+    color: '#fff',
+    fontWeight: '600',
+    marginBottom: 4,
+  },
+  detailsText: {
+    color: '#B0B0B0',
     fontSize: 14,
-    marginRight: 4,
+    marginBottom: 8,
   },
-  createButton: {
+  reqRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#007AFF',
-    margin: 15,
-    padding: 15,
+    marginBottom: 4,
+  },
+  reqText: {
+    color: '#B0B0B0',
+    fontSize: 14,
+  },
+  applyBtn: {
+    backgroundColor: '#00BFFF',
     borderRadius: 8,
+    marginTop: 16,
+    paddingVertical: 10,
+    alignItems: 'center',
   },
-  createButtonText: {
+  applyBtnText: {
     color: '#fff',
+    fontWeight: '700',
     fontSize: 16,
-    fontWeight: '600',
-    marginLeft: 8,
   },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyTitle: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 4,
+  },
+  emptyText: {
+    color: '#B0B0B0',
+    fontSize: 15,
+  }
 }); 
