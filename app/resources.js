@@ -47,11 +47,11 @@ export default function ResourcesScreen() {
   if (!resources.length) {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#121212' }}>
-        <View style={styles.center}>
-          <Header openSidebar={openSidebar} title="Resources" />
-          <Text style={styles.emptyTitle}>No resources found</Text>
-          <Text style={styles.emptyText}>Try a different search or check back later.</Text>
-        </View>
+      <View style={styles.center}>
+        <Header openSidebar={openSidebar} title="Resources" />
+        <Text style={styles.emptyTitle}>No resources found</Text>
+        <Text style={styles.emptyText}>Try a different search or check back later.</Text>
+      </View>
       </SafeAreaView>
     );
   }

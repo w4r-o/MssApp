@@ -6,7 +6,7 @@ import { Home, Megaphone, School, BookOpen, FileText, Timer, User } from 'lucide
 const NAV_ITEMS = [
   { label: 'Home', icon: Home, route: '/home' },
   { label: 'Announcements', icon: Megaphone, route: '/announcements' },
-  { label: 'TeachAssist', icon: School, route: '/teachassist' },
+  { label: 'Marks', icon: School, route: '/marks' },
   { label: 'Resources', icon: BookOpen, route: '/resources' },
   { label: 'Practice Tests', icon: FileText, route: '/tests' },
   { label: 'Study Timer', icon: Timer, route: '/study' },

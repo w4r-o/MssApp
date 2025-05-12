@@ -45,11 +45,11 @@ export default function VolunteerScreen() {
   if (!opportunities.length) {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#121212' }}>
-        <View style={styles.center}>
-          <Header openSidebar={openSidebar} title="Volunteering" />
-          <Text style={styles.emptyTitle}>No volunteering opportunities</Text>
-          <Text style={styles.emptyText}>Check back later for new opportunities.</Text>
-        </View>
+      <View style={styles.center}>
+        <Header openSidebar={openSidebar} title="Volunteering" />
+        <Text style={styles.emptyTitle}>No volunteering opportunities</Text>
+        <Text style={styles.emptyText}>Check back later for new opportunities.</Text>
+      </View>
       </SafeAreaView>
     );
   }

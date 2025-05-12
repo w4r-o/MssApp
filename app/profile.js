@@ -30,11 +30,11 @@ export default function ProfileScreen() {
   if (error) {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#121212' }}>
-        <View style={styles.center}>
-          <Header openSidebar={openSidebar} title="Profile" />
-          <Text style={styles.emptyTitle}>Profile not found</Text>
-          <Text style={styles.emptyText}>{error}</Text>
-        </View>
+      <View style={styles.center}>
+        <Header openSidebar={openSidebar} title="Profile" />
+        <Text style={styles.emptyTitle}>Profile not found</Text>
+        <Text style={styles.emptyText}>{error}</Text>
+      </View>
       </SafeAreaView>
     );
   }

@@ -145,30 +145,30 @@ export default function StudyScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#121212' }}>
       <Header openSidebar={openSidebar} title="Study Timer" />
-      <View style={styles.container}>
-        <View style={styles.modeRow}>
-          {MODES.map((m, idx) => (
-            <TouchableOpacity
-              key={m.label}
-              style={[styles.modeBtn, mode === idx && styles.modeBtnActive]}
-              onPress={() => switchMode(idx)}
+    <View style={styles.container}>
+      <View style={styles.modeRow}>
+        {MODES.map((m, idx) => (
+          <TouchableOpacity
+            key={m.label}
+            style={[styles.modeBtn, mode === idx && styles.modeBtnActive]}
+            onPress={() => switchMode(idx)}
               activeOpacity={0.8}
               hitSlop={{top:10,bottom:10,left:10,right:10}}
-            >
-              <Text style={[styles.modeText, mode === idx && styles.modeTextActive]}>{m.label}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-        <Animated.View style={[styles.timerCircle, { opacity: anim.interpolate({ inputRange: [0, 1], outputRange: [1, 0.8] }) }] }>
-          <Timer color="#00BFFF" size={64} />
-          <Text style={styles.time}>{formatTime(seconds)}</Text>
-        </Animated.View>
-        <View style={styles.btnRow}>
-          <TouchableOpacity style={styles.controlBtn} onPress={() => setRunning((r) => !r)} activeOpacity={0.8} hitSlop={{top:10,bottom:10,left:10,right:10}}>
-            {running ? <Pause color="#fff" size={28} /> : <Play color="#fff" size={28} />}
+          >
+            <Text style={[styles.modeText, mode === idx && styles.modeTextActive]}>{m.label}</Text>
           </TouchableOpacity>
+        ))}
+      </View>
+      <Animated.View style={[styles.timerCircle, { opacity: anim.interpolate({ inputRange: [0, 1], outputRange: [1, 0.8] }) }] }>
+        <Timer color="#00BFFF" size={64} />
+        <Text style={styles.time}>{formatTime(seconds)}</Text>
+      </Animated.View>
+      <View style={styles.btnRow}>
+          <TouchableOpacity style={styles.controlBtn} onPress={() => setRunning((r) => !r)} activeOpacity={0.8} hitSlop={{top:10,bottom:10,left:10,right:10}}>
+          {running ? <Pause color="#fff" size={28} /> : <Play color="#fff" size={28} />}
+        </TouchableOpacity>
           <TouchableOpacity style={styles.controlBtn} onPress={() => { setSeconds(MODES[mode].duration); setRunning(false); }} activeOpacity={0.8} hitSlop={{top:10,bottom:10,left:10,right:10}}>
-            <RotateCcw color="#fff" size={28} />
+          <RotateCcw color="#fff" size={28} />
           </TouchableOpacity>
         </View>
         <Text style={styles.sessionText}>Sessions completed: <Text style={{ color: '#00BFFF' }}>{sessions}</Text></Text>
@@ -197,7 +197,7 @@ export default function StudyScreen() {
               <Text style={styles.closeModalBtnText}>Close</Text>
             </TouchableOpacity>
           </View>
-        </View>
+    </View>
       </Modal>
     </SafeAreaView>
   );

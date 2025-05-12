@@ -24,7 +24,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 const NAV_ITEMS = [
   { label: 'Home', icon: Home, route: '/(tabs)' },
   { label: 'Announcements', icon: Megaphone, route: '/announcements' },
-  { label: 'TeachAssist', icon: GraduationCap, route: '/teachassist' },
+  { label: 'Marks', icon: GraduationCap, route: '/marks' },
   { label: 'Resources', icon: BookOpen, route: '/resources' },
   { label: 'Practice Tests', icon: FileText, route: '/tests' },
   { label: 'Study Timer', icon: Timer, route: '/timer' },

@@ -27,6 +27,7 @@
     "@react-navigation/native-stack": "^6.9.26",
     "axios": "^1.9.0",
     "axios-cookiejar-support": "^6.0.2",
+    "cors": "^2.8.5",
     "expo": "^53.0.8",
     "expo-constants": "~17.1.6",
     "expo-document-picker": "~13.1.5",
@@ -36,6 +37,7 @@
     "expo-router": "~5.0.6",
     "expo-status-bar": "~2.2.3",
     "expo-system-ui": "~5.0.7",
+    "express": "^5.1.0",
     "fetch-cookie": "^3.1.0",
     "lucide-react-native": "^0.508.0",
     "node-fetch": "^2.7.0",
@@ -48,6 +50,7 @@
     "react-native-safe-area-context": "^5.4.0",
     "react-native-screens": "^4.10.0",
     "react-native-svg": "^15.11.2",
+    "teachassist": "^1.0.0",
     "tough-cookie": "^5.1.2"
   },
   "devDependencies": {

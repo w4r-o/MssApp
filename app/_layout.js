@@ -34,23 +34,23 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <SidebarContext.Provider value={{ openSidebar, closeSidebar }}>
-        <View style={{ flex: 1, backgroundColor: '#121212' }}>
+    <View style={{ flex: 1, backgroundColor: '#121212' }}>
           <Slot />
-          {sidebarOpen && (
-            <Pressable style={styles.backdrop} onPress={closeSidebar} />
-          )}
-          <Animated.View
-            style={[
-              styles.sidebar,
-              {
-                width: sidebarWidth(),
-                left: sidebarAnim,
-              },
-            ]}
-          >
-            <Sidebar closeSidebar={closeSidebar} />
-          </Animated.View>
-        </View>
+      {sidebarOpen && (
+        <Pressable style={styles.backdrop} onPress={closeSidebar} />
+      )}
+      <Animated.View
+        style={[
+          styles.sidebar,
+          {
+            width: sidebarWidth(),
+            left: sidebarAnim,
+          },
+        ]}
+      >
+        <Sidebar closeSidebar={closeSidebar} />
+      </Animated.View>
+    </View>
       </SidebarContext.Provider>
     </AuthProvider>
   );

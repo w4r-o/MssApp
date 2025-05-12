@@ -35,11 +35,11 @@ export default function AnnouncementsScreen() {
   if (!announcements.length) {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#121212' }}>
-        <View style={styles.center}>
-          <Header openSidebar={openSidebar} title="Announcements" />
-          <Text style={styles.emptyTitle}>No announcements</Text>
-          <Text style={styles.emptyText}>Check back later for new announcements.</Text>
-        </View>
+      <View style={styles.center}>
+        <Header openSidebar={openSidebar} title="Announcements" />
+        <Text style={styles.emptyTitle}>No announcements</Text>
+        <Text style={styles.emptyText}>Check back later for new announcements.</Text>
+      </View>
       </SafeAreaView>
     );
   }

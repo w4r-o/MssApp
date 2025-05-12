@@ -73,59 +73,59 @@ export default function TestsScreen() {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#121212' }}>
       <Header openSidebar={openSidebar} title="Practice Test" />
       <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 32 }}>
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Select Your Grade</Text>
-          <GradeSelector selectedGrade={selectedGrade} onSelect={setSelectedGrade} />
-        </View>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Select Your Grade</Text>
+        <GradeSelector selectedGrade={selectedGrade} onSelect={setSelectedGrade} />
+      </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Configure Questions</Text>
-          <View style={styles.questionConfig}>
-            <QuestionTypeInput
-              label="Multiple Choice"
-              value={questionCounts.multipleChoice}
-              onChange={(value) => updateQuestionCount('multipleChoice', value)}
-            />
-            <QuestionTypeInput
-              label="Knowledge"
-              value={questionCounts.knowledge}
-              onChange={(value) => updateQuestionCount('knowledge', value)}
-            />
-            <QuestionTypeInput
-              label="Thinking"
-              value={questionCounts.thinking}
-              onChange={(value) => updateQuestionCount('thinking', value)}
-            />
-            <QuestionTypeInput
-              label="Application"
-              value={questionCounts.application}
-              onChange={(value) => updateQuestionCount('application', value)}
-            />
-            <QuestionTypeInput
-              label="Communication"
-              value={questionCounts.communication}
-              onChange={(value) => updateQuestionCount('communication', value)}
-            />
-          </View>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Configure Questions</Text>
+        <View style={styles.questionConfig}>
+          <QuestionTypeInput
+            label="Multiple Choice"
+            value={questionCounts.multipleChoice}
+            onChange={(value) => updateQuestionCount('multipleChoice', value)}
+          />
+          <QuestionTypeInput
+            label="Knowledge"
+            value={questionCounts.knowledge}
+            onChange={(value) => updateQuestionCount('knowledge', value)}
+          />
+          <QuestionTypeInput
+            label="Thinking"
+            value={questionCounts.thinking}
+            onChange={(value) => updateQuestionCount('thinking', value)}
+          />
+          <QuestionTypeInput
+            label="Application"
+            value={questionCounts.application}
+            onChange={(value) => updateQuestionCount('application', value)}
+          />
+          <QuestionTypeInput
+            label="Communication"
+            value={questionCounts.communication}
+            onChange={(value) => updateQuestionCount('communication', value)}
+          />
         </View>
+      </View>
 
-        <View style={styles.section}>
-          <TouchableOpacity 
-            style={[styles.generateButton, !selectedGrade && styles.generateButtonDisabled]}
-            disabled={!selectedGrade}
+      <View style={styles.section}>
+        <TouchableOpacity 
+          style={[styles.generateButton, !selectedGrade && styles.generateButtonDisabled]}
+          disabled={!selectedGrade}
             activeOpacity={0.8}
             hitSlop={{top:12,bottom:12,left:12,right:12}}
-          >
-            <Ionicons name="create-outline" size={24} color="#fff" style={styles.generateIcon} />
-            <Text style={styles.generateButtonText}>Generate Practice Test</Text>
-          </TouchableOpacity>
+        >
+          <Ionicons name="create-outline" size={24} color="#fff" style={styles.generateIcon} />
+          <Text style={styles.generateButtonText}>Generate Practice Test</Text>
+        </TouchableOpacity>
 
           <TouchableOpacity style={styles.uploadButton} activeOpacity={0.8} hitSlop={{top:12,bottom:12,left:12,right:12}}>
             <Ionicons name="cloud-upload-outline" size={20} color="#00BFFF" />
-            <Text style={styles.uploadButtonText}>Upload Past Test for Reference</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+          <Text style={styles.uploadButtonText}>Upload Past Test for Reference</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
     </SafeAreaView>
   );
 }

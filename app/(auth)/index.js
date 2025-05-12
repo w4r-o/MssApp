@@ -21,7 +21,7 @@ export default function LoginScreen() {
       await AsyncStorage.setItem('ta_credentials', JSON.stringify({ username, password }));
       router.replace('/home');
     } catch (error) {
-      setError('An error occurred while logging in. Please try again.');
+        setError('An error occurred while logging in. Please try again.');
     } finally {
       setLoading(false);
     }

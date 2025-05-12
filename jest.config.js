@@ -15,4 +15,8 @@ module.exports = {
   moduleNameMapper: {
     '\\.svg': '<rootDir>/__mocks__/svgMock.js',
   },
+  testPathIgnorePatterns: [
+    "/node_modules/",
+    "/backend/",
+  ],
 }; 
