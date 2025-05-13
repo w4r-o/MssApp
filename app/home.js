@@ -44,7 +44,6 @@ function AnnouncementCard({ item, idx }) {
 
 // Tool Card Component
 function ToolCard({ item, onPress }) {
-  console.log('ToolCard icon:', item.icon, typeof item.icon);
   return (
     <TouchableOpacity
       style={styles.card}

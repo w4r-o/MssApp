@@ -1,0 +1,14 @@
+{
+  "name": "teachassist-api",
+  "version": "1.0.0",
+  "description": "A Node.js implementation of the YRDSB TeachAssist API",
+  "main": "src/services/teachassist.js",
+  "scripts": {
+    "start": "node src/proxy/ta-proxy.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-fetch": "^2.6.9"
+  }
+} 
