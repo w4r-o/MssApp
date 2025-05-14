@@ -153,7 +153,7 @@ export default function TeachAssistScreen() {
       {course.assignments && course.assignments.map((assignment: Assignment, aidx: number) => (
         <AssignmentItem key={assignment.name + aidx} assignment={assignment} />
       ))}
-    </View>
+        </View>
   );
 
   return (
@@ -171,26 +171,26 @@ export default function TeachAssistScreen() {
             <Text style={styles.lastUpdatedText}>Last updated: {new Date(lastUpdated).toLocaleString()}</Text>
           )}
         </View>
-        {loading ? (
-          <View style={styles.loadingContainer}>
+          {loading ? (
+            <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color="#fff" />
             <Text style={styles.loadingText}>Loading courses...</Text>
-          </View>
-        ) : error ? (
-          <View style={styles.errorContainer}>
+            </View>
+          ) : error ? (
+            <View style={styles.errorContainer}>
             <MaterialCommunityIcons name="alert-circle" size={24} color="#F44336" />
-            <Text style={styles.errorText}>{error}</Text>
+              <Text style={styles.errorText}>{error}</Text>
             <TouchableOpacity onPress={fetchCourses} style={styles.retryButton}>
               <Text style={styles.retryButtonText}>Retry</Text>
-            </TouchableOpacity>
-          </View>
-        ) : (
+              </TouchableOpacity>
+            </View>
+          ) : (
           <ScrollView
             contentContainerStyle={styles.scrollContent}
             refreshControl={<RefreshControl refreshing={loading} onRefresh={onRefresh} tintColor="#fff" />}
           >
             {courses.map((course: CourseData, idx: number) => renderCourseCard(course, idx))}
-          </ScrollView>
+        </ScrollView>
         )}
       </LinearGradient>
     </SafeAreaView>

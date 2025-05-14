@@ -98,6 +98,7 @@ export default function MarksScreen() {
     <View style={{ flex: 1, backgroundColor: '#0A0A0A' }}>
       <Header openSidebar={openSidebar} title="Marks" />
       <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+        <Text style={{ fontSize: 22, fontWeight: 'bold', marginBottom: 16, color: '#fff' }}>Marks Screen</Text>
         {averageMark && (
           <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#00BFFF', marginBottom: 20 }}>
             Average Mark: {averageMark}%

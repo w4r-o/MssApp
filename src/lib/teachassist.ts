@@ -21,7 +21,7 @@ export class Student {
   async fetchCourses(): Promise<CourseData[]> {
     try {
       // Make a POST request to the ta-api local endpoint
-      const response = await fetch('http://localhost:3001/api/getCourses', {
+      const response = await fetch('http://localhost:3000/api/getCourses', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: this.username, password: this.password })
